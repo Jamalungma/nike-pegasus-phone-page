@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Nike Pegasus 43</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="page">
+
+    <!-- 1. PHOTO GALLERY: fixed 4/5 box, space reserved before images load -->
+    <section class="gallery" aria-roledescription="carousel" aria-label="Product photos">
+      <div class="gallery__track" id="track" tabindex="0">
+        <!-- First image eager + high priority, the rest lazy -->
+        <img class="gallery__slide" src="images/side.svg" width="800" height="1000" alt="Nike Pegasus 43, side profile" loading="eager" fetchpriority="high">
+        <img class="gallery__slide" src="images/sole.svg" width="800" height="1000" alt="Nike Pegasus 43, outsole view" loading="lazy">
+        <img class="gallery__slide" src="images/back.svg" width="800" height="1000" alt="Nike Pegasus 43, heel view" loading="lazy">
+        <img class="gallery__slide" src="images/top.svg" width="800" height="1000" alt="Nike Pegasus 43, top view" loading="lazy">
+        <img class="gallery__slide" src="images/on-foot.svg" width="800" height="1000" alt="Nike Pegasus 43 worn on foot" loading="lazy">
+      </div>
+      <div class="gallery__dots" id="dots" aria-hidden="true"></div>
+      <p class="sr-only" id="gallery-status" aria-live="polite">Photo 1 of 5</p>
+    </section>
+
+    <!-- 2. NAME + COLORWAY + PRICE + RATING (text filled from the JSON; every row has a reserved height) -->
+    <section class="info" aria-labelledby="product-name">
+      <h1 id="product-name"></h1>
+      <p class="colorway" id="colorway"></p>
+      <div class="price-row"><span class="price" id="price"></span></div>
+      <a class="rating" href="#reviews" aria-label="Rated 4.7 out of 5, 128 reviews. Go to reviews">
+        <span aria-hidden="true">★ 4.7</span>
+        <span class="rating__count" aria-hidden="true">(128)</span>
+      </a>
+    </section>
+
+    <!-- 3. SIZES (rendered from the JSON) -->
+    <section class="sizes" aria-labelledby="sizes-title">
+      <div class="sizes__head">
+        <h2 id="sizes-title">Size (US men's)</h2>
+        <a class="sizes__guide" href="#size-guide">Size guide</a>
+      </div>
+      <div class="sizes__grid" id="size-grid" role="group" aria-labelledby="sizes-title"></div>
+      <p class="sizes__status" id="size-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- 4. TECH COPY (placeholder accordions, filled in a later step) -->
+    <section class="tech" aria-label="Product details">
+      <details><summary>Details</summary><p>Placeholder: details copy.</p></details>
+      <details><summary>Materials</summary><p>Placeholder: materials copy.</p></details>
+      <details><summary>Care</summary><p>Placeholder: care copy.</p></details>
+      <details><summary>Delivery &amp; Returns</summary><p>Placeholder: delivery copy.</p></details>
+    </section>
+
+    <!-- 5. REVIEWS (placeholder, filled in a later step) -->
+    <section class="reviews" id="reviews" aria-labelledby="reviews-title">
+      <h2 id="reviews-title">Reviews</h2>
+      <div class="reviews__summary">Placeholder: rating summary</div>
+      <div class="reviews__list">Placeholder: review list</div>
+    </section>
+
+  </main>
+</body>
+</html>
