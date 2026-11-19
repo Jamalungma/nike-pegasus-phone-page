@@ -1,6 +1,7 @@
 # Notes: Nike Pegasus 43 phone page
 
 Mobile product page for the Nike Pegasus 43 (style HV7521-001), built in Next.js.
+Live: https://nike-pegasus-phone-page.vercel.app
 Plain-HTML reference version is in the repo root (`index.html`, `styles.css`, `script.js`).
 
 ## What is in this repo
@@ -45,7 +46,28 @@ Grid movement was measured by sampling the grid's position every frame under the
 Slow 4G (562.5 ms latency, 1474.56 / 675 Kbps) and 4x CPU values, plus a layout-shift
 observer. It found no shifts.
 
+### Live check on Vercel
+
+Live production URL: https://nike-pegasus-phone-page.vercel.app (deployed with the Vercel CLI
+from `next/`, public, no login wall). The served HTML has 26 size buttons
+(`size-button` x22, `size-button-sold-out` x4) and the `size-grid`, `main-photo` and
+`price` test ids. Same profile settings as above, 3 runs on the live address.
+
+| Check | Live result | Budget |
+|---|---|---|
+| Lighthouse performance score | 98, 100, 100 (FCP and LCP 0.8 to 0.9 s) | >= 90 |
+| Cumulative layout shift | 0, no shifting elements, all 3 runs | n/a |
+| Size grid movement, first paint to fully loaded | 0 px in all 3 runs, no layout shifts (grid at y = 669) | <= 0 |
+| Smallest size button (all 26) | 44 px | >= 44 |
+
+Run 1 scored 98 because total blocking time was 180 ms (60 ms on runs 2 and 3).
+The LCP element was not recorded on the live runs. Grid movement was measured with the
+same Playwright script as above (Slow 4G, 4x CPU, 375 x 812 at 3x).
+
 ### Late elements that could push the grid, and what stops each
+
+This table is analysis from the code and CSS. The trace found nothing moving, so it did
+not show any of these elements moving the grid; the protections were built in first.
 
 | Element | How it could push the grid | Fix in this page |
 |---|---|---|
@@ -59,8 +81,10 @@ The five `data-testid` attributes the check reads are on the page: `size-grid` (
 
 ### Not tested
 
-- The live Vercel page. Everything above is from a local production build, and
-  Lighthouse's Slow 4G is a simulation (which is what the profile specifies).
+- Lighthouse's Slow 4G is a simulation (which is what the profile specifies), not a
+  recording of a real slow connection. The first sections above are from a local
+  production build; the live Vercel results are in their own section.
+- A before-and-after: the protections were never switched off to see the grid move.
 - A real phone or a real-device trace.
 - Real photos. The gallery uses small SVG placeholders, so a re-trace is needed with
   the real, heavier images (use `next/image` with `priority` for the first one).
