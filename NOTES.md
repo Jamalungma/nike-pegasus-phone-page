@@ -103,6 +103,9 @@ The five `data-testid` attributes the check reads are on the page: `size-grid` (
 1. Build the page: see [`PROMPT.md`](PROMPT.md). It covers the stack, the size/stock
    JSON, the 375px layout, the size button rules and the hand-back format.
 2. Record the phone trace (below). Run on a production build, with the profile's values.
+3. Deploy to Vercel and run mobile Lighthouse on the live URL: see
+   [`DEPLOY-PROMPT.md`](DEPLOY-PROMPT.md). It has the prompt and the exact commands that
+   were run, and the grid movement script is [`scripts/grid-movement.js`](scripts/grid-movement.js).
 
 ```text
 Record a phone performance trace of the Nike Pegasus 43 page and report what it shows
