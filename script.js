@@ -1,4 +1,4 @@
-const DATA_URL = 'nike_pegasus_size_stock_b2ebb9fac7f74d6a8bb3432d7642176f.json';
+const DATA_URL = 'pegasus_size_stock_2026-12-08.json';
 
 /* ---------- Gallery dots ---------- */
 (function () {

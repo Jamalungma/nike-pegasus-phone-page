@@ -24,7 +24,7 @@ export type SizeData =
 const DATA_FILE = path.join(
   process.cwd(),
   "data",
-  "nike_pegasus_size_stock_b2ebb9fac7f74d6a8bb3432d7642176f.json"
+  "pegasus_size_stock_2026-12-08.json"
 );
 
 /** Reads and validates the size file on the server. Never throws. */

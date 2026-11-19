@@ -26,7 +26,7 @@ visual and behavioural reference, but build the real thing in Next.js.
 
 ## 2. The data file
 
-- File: `nike_pegasus_size_stock_b2ebb9fac7f74d6a8bb3432d7642176f.json` (repo root,
+- File: `pegasus_size_stock_2026-12-08.json` (repo root,
   26 rows). Copy it into the Next.js project (for example `next/data/`). Do not
   hardcode, generate or invent sizes or stock.
 - Fields used per row: `size_label` ("M 9 / W 10.5"), `size_us_men` (number),
@@ -39,8 +39,9 @@ visual and behavioural reference, but build the real thing in Next.js.
   the first row: "Nike Pegasus 43", "Black/White-Volt", 140.00 (shown as `$140.00`).
   There is no old price and no discount, so do not show either.
 - Ignore `launch_date` on the page (all rows are 2026-12-10). No "launch" note.
-- Expected counts, to check yourself: 26 sizes, 4 sold out (M 3.5, M 10, M 15.5,
-  M 16), 5 low stock (M 4, M 9, M 9.5, M 11, M 15), 17 in stock.
+- The data is the 8 December 2026 size and stock snapshot. Expected counts, to check
+  yourself: 26 sizes, 9 sold out (M 4.5, M 6, M 9, M 10, M 11.5, M 14, M 15, M 15.5,
+  M 16), 7 low stock (M 3.5, M 4, M 5, M 8.5, M 13, M 13.5, M 14.5), 10 in stock.
   Low stock means `stock_quantity` of 5 or fewer.
 
 ## 3. Page parts, in this order, at 375px
@@ -86,13 +87,13 @@ Approximate total page height at 375px: 1,550px.
   (`white-space: nowrap; overflow: hidden; text-overflow: ellipsis`),
   `role="status"` and `aria-live="polite"`. Text appearing there must not move
   anything.
-- **Sold out (4 sizes):** use `aria-disabled="true"`, NOT the `disabled` attribute,
+- **Sold out (9 sizes):** use `aria-disabled="true"`, NOT the `disabled` attribute,
   so the button stays tappable and focusable and can show a message. Greyed text,
   light grey background, and a diagonal strike across the button so the state does
   not rely on colour alone. `aria-label="Size M 10, out of stock"`. Tapping or
   focusing one shows `Size M 10 is out of stock.` in the status line. It can never
   become selected.
-- **Low stock (5 sizes):** fully selectable. `aria-label="Size M 9, only 3 left"`.
+- **Low stock (7 sizes):** fully selectable. `aria-label="Size M 8.5, only 3 left"`.
   When selected, the status line shows the full label plus ` · Only 3 left`
   (using `stock_quantity`).
 - **Selected:** a clear 2px outline, bold text, `aria-pressed="true"`. Only one size
@@ -126,8 +127,8 @@ Report back in plain text, short, in this order:
 2. **FILES:** each file you created or changed, one line saying what it does.
 3. **375px CHECK:** measured at a 375px-wide viewport: gallery size (expect
    375 x 469), name/price block height (about 156), size grid height (expect 252),
-   the size of all 26 buttons (expect 44 x 44), sold-out count (expect 4),
-   low-stock count (expect 5), horizontal scroll (expect none), total page height.
+   the size of all 26 buttons (expect 44 x 44), sold-out count (expect 9),
+   low-stock count (expect 7), horizontal scroll (expect none), total page height.
 4. **LAYOUT SHIFT:** two lines on how the gallery and the size grid avoid it.
 5. **DEVIATIONS:** anything you did differently from this prompt, and why.
    If nothing, write "none".

@@ -11,7 +11,7 @@ Plain-HTML reference version is in the repo root (`index.html`, `styles.css`, `s
 | `next/` | The Next.js page that is checked (App Router, TypeScript, plain CSS). |
 | `speed-budget.json` | The three required budget keys: 90 / 0 / 44. |
 | `PROMPT.md` | The Claude Code prompt that builds the Next.js page. |
-| `nike_pegasus_size_stock_b2ebb9fac7f74d6a8bb3432d7642176f.json` | Size and stock data (26 rows), the source for the size grid. |
+| `pegasus_size_stock_2026-12-08.json` | Size and stock data (26 rows, 8 December 2026 snapshot), the source for the size grid. |
 | `NOTES.md` | This file: trace findings and the trace prompt. |
 
 ## speed-budget.json
@@ -49,20 +49,28 @@ observer. It found no shifts.
 ### Live check on Vercel
 
 Live production URL: https://nike-pegasus-phone-page.vercel.app (deployed with the Vercel CLI
-from `next/`, public, no login wall). The served HTML has 26 size buttons
-(`size-button` x22, `size-button-sold-out` x4) and the `size-grid`, `main-photo` and
-`price` test ids. Same profile settings as above, 3 runs on the live address.
+from `next/`, public, no login wall). The page uses the 8 December 2026 size and stock
+snapshot (`pegasus_size_stock_2026-12-08.json`): 9 sold out (M 4.5, 6, 9, 10, 11.5, 14, 15,
+15.5, 16), 7 low stock (M 3.5, 4, 5, 8.5, 13, 13.5, 14.5), 10 in stock. The served HTML
+has 26 size buttons (`size-button` x17, `size-button-sold-out` x9), 7 "only N left"
+labels, and the `size-grid`, `main-photo` and `price` test ids. Same profile settings as
+above, 3 runs on the live address after the snapshot was deployed.
 
-| Check | Live result | Budget |
+| Check | Live result (8 December snapshot) | Budget |
 |---|---|---|
-| Lighthouse performance score | 98, 100, 100 (FCP and LCP 0.8 to 0.9 s) | >= 90 |
+| Lighthouse performance score | 100, 98, 100 (FCP and LCP 0.9 to 1.0 s) | >= 90 |
 | Cumulative layout shift | 0, no shifting elements, all 3 runs | n/a |
 | Size grid movement, first paint to fully loaded | 0 px in all 3 runs, no layout shifts (grid at y = 669) | <= 0 |
-| Smallest size button (all 26) | 44 px | >= 44 |
+| Smallest size button (all 26, sold-out included) | 44 px | >= 44 |
 
-Run 1 scored 98 because total blocking time was 180 ms (60 ms on runs 2 and 3).
+Run 2 scored 98 because total blocking time was 160 ms (80 and 90 ms on the others).
 The LCP element was not recorded on the live runs. Grid movement was measured with the
 same Playwright script as above (Slow 4G, 4x CPU, 375 x 812 at 3x).
+
+The earlier local runs above, and a first live deploy (98, 100, 100, same 0 px movement),
+used the earlier stock file (4 sold out, 5 low stock). The fixed 44 x 44 cells mean the
+grid size does not depend on which sizes are sold out, and the re-run on the snapshot
+confirms it.
 
 ### Late elements that could push the grid, and what stops each
 
@@ -76,8 +84,8 @@ not show any of these elements moving the grid; the protections were built in fi
 | Price font | A web font swapping in late changes letter widths and line wrapping. | No web font: the page uses the system font stack. If one is added, use `next/font` (metric-adjusted fallback) and keep the fixed line height. |
 
 The five `data-testid` attributes the check reads are on the page: `size-grid` (1),
-`size-button` (22 in-stock and low-stock buttons), `size-button-sold-out` (4),
-`main-photo` (1), `price` (1).
+`size-button` (17 in-stock and low-stock buttons on the 8 December snapshot),
+`size-button-sold-out` (9), `main-photo` (1), `price` (1).
 
 ### Not tested
 
