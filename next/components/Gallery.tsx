@@ -31,6 +31,8 @@ export default function Gallery() {
           <img
             key={p.src}
             className="gallery__slide"
+            // The first photo is the expected largest-content element for the speed check
+            data-testid={i === 0 ? "main-photo" : undefined}
             src={p.src}
             alt={p.alt}
             width={800}

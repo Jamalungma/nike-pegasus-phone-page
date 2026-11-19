@@ -16,7 +16,7 @@ export default async function Page() {
         <h1 id="product-name">{name}</h1>
         <p className="colorway">{first?.colorway}</p>
         <div className="price-row">
-          <span className="price">{first ? `$${first.price.toFixed(2)}` : ""}</span>
+          <span className="price" data-testid="price">{first ? `$${first.price.toFixed(2)}` : ""}</span>
         </div>
         {/* Static placeholder: the data has no rating */}
         <a className="rating" href="#reviews" aria-label="Rated 4.7 out of 5, 128 reviews. Go to reviews">

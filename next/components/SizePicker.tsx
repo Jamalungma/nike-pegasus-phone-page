@@ -37,12 +37,14 @@ export default function SizePicker({ rows, error }: Props) {
 
   return (
     <>
-      <div className="sizes__grid" role="group" aria-labelledby="sizes-title">
+      <div className="sizes__grid" data-testid="size-grid" role="group" aria-labelledby="sizes-title">
         {rows.map((r) => (
           <button
             key={r.sku}
             type="button"
             className="size"
+            // The speed check reads sold-out buttons separately from the rest
+            data-testid={r.stock_status === "sold_out" ? "size-button-sold-out" : "size-button"}
             aria-pressed={selected === r.sku}
             aria-disabled={r.stock_status === "sold_out" ? true : undefined}
             aria-label={ariaLabel(r)}
