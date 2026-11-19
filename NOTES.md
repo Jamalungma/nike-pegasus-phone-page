@@ -54,23 +54,28 @@ snapshot (`pegasus_size_stock_2026-12-08.json`): 9 sold out (M 4.5, 6, 9, 10, 11
 15.5, 16), 7 low stock (M 3.5, 4, 5, 8.5, 13, 13.5, 14.5), 10 in stock. The served HTML
 has 26 size buttons (`size-button` x17, `size-button-sold-out` x9), 7 "only N left"
 labels, and the `size-grid`, `main-photo` and `price` test ids. Same profile settings as
-above, 3 runs on the live address after the snapshot was deployed.
+above, 3 runs on the live address. The numbers below are from the latest deploy, which also
+has the dark selected size, the add button under the grid ("Select a size" until a size is
+picked) and the one-line key "Crossed out = sold out". Sold-out buttons are announced as
+"Size M 10, sold out" (checked in the browser's accessibility tree, not with a real
+screen reader).
 
-| Check | Live result (8 December snapshot) | Budget |
+| Check | Live result (8 December snapshot, with add button and key) | Budget |
 |---|---|---|
-| Lighthouse performance score | 100, 98, 100 (FCP and LCP 0.9 to 1.0 s) | >= 90 |
+| Lighthouse performance score | 99, 98, 100 (FCP and LCP 0.8 to 0.9 s) | >= 90 |
 | Cumulative layout shift | 0, no shifting elements, all 3 runs | n/a |
 | Size grid movement, first paint to fully loaded | 0 px in all 3 runs, no layout shifts (grid at y = 669) | <= 0 |
 | Smallest size button (all 26, sold-out included) | 44 px | >= 44 |
 
-Run 2 scored 98 because total blocking time was 160 ms (80 and 90 ms on the others).
+Run 2 scored 98 because total blocking time was 170 ms (100 and 70 ms on the others).
 The LCP element was not recorded on the live runs. Grid movement was measured with the
 same Playwright script as above (Slow 4G, 4x CPU, 375 x 812 at 3x).
 
 The earlier local runs above, and a first live deploy (98, 100, 100, same 0 px movement),
-used the earlier stock file (4 sold out, 5 low stock). The fixed 44 x 44 cells mean the
-grid size does not depend on which sizes are sold out, and the re-run on the snapshot
-confirms it.
+used the earlier stock file (4 sold out, 5 low stock). A second live run on the snapshot
+(100, 98, 100) was before the add button and key. The fixed 44 x 44 cells mean the grid
+size does not depend on which sizes are sold out, and the add button and key are in the
+page from the first paint, so none of these changes moved the grid (0 px every time).
 
 ### Late elements that could push the grid, and what stops each
 
