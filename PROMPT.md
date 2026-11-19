@@ -69,7 +69,7 @@ scroll at 375px.
 5. **Reviews.** Placeholder section with `id="reviews"`: heading, a 96px summary
    placeholder, a 200px list placeholder.
 
-Approximate total page height at 375px: 1,550px.
+Approximate total page height at 375px: 1,650px (with the sold-out key and add button).
 
 ## 4. Size button rules (the part that must be exact)
 
@@ -90,14 +90,23 @@ Approximate total page height at 375px: 1,550px.
 - **Sold out (9 sizes):** use `aria-disabled="true"`, NOT the `disabled` attribute,
   so the button stays tappable and focusable and can show a message. Greyed text,
   light grey background, and a diagonal strike across the button so the state does
-  not rely on colour alone. `aria-label="Size M 10, out of stock"`. Tapping or
-  focusing one shows `Size M 10 is out of stock.` in the status line. It can never
-  become selected.
+  not rely on colour alone. `aria-label="Size M 10, sold out"` (same words as the
+  visible key below). Tapping or focusing one shows `Size M 10 is sold out.` in the
+  status line. It can never become selected.
+- **Key under the grid:** one line, 20px tall with an 8px gap above, 14px text:
+  a small 16 x 16 swatch with the same diagonal strike (`aria-hidden`) and the words
+  "Crossed out = sold out". It is rendered with the page, so it never moves the grid.
 - **Low stock (7 sizes):** fully selectable. `aria-label="Size M 8.5, only 3 left"`.
   When selected, the status line shows the full label plus ` · Only 3 left`
   (using `stock_quantity`).
-- **Selected:** a clear 2px outline, bold text, `aria-pressed="true"`. Only one size
-  can be selected at a time.
+- **Selected:** a dark fill (`#111`) with white bold text, `aria-pressed="true"`. Only
+  one size can be selected at a time.
+- **Add button:** directly under the status line, full width, 52px tall, 12px gap above,
+  rendered with the page (disabled, reads "Select a size") so it never moves the grid.
+  It uses the real `disabled` attribute and turns on (dark, "Add M 10.5 to bag") only
+  once an in-stock or low-stock size is picked. Pressing it shows "Added to bag ✓" and
+  "Added to bag: M 10.5 / W 12 · EU 44.5" in the status line. There is no cart yet:
+  leave a comment where the real add-to-bag call goes.
 - Buttons: `type="button"`, 15px text, 1px border, 8px radius,
   `touch-action: manipulation`, visible `:focus-visible` outline.
 - If the data cannot be loaded or parsed, show a message inside the reserved status

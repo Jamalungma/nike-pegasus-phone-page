@@ -12,8 +12,12 @@ interface Props {
 export default function SizePicker({ rows, error }: Props) {
   const [selected, setSelected] = useState<string | null>(null);
   const [message, setMessage] = useState(error ?? "");
+  // True after the add button is pressed for the current size; reset when the size changes
+  const [added, setAdded] = useState(false);
 
-  const soldOutMessage = (r: SizeRow) => `Size M ${r.size_us_men} is out of stock.`;
+  const selectedRow = rows.find((r) => r.sku === selected) ?? null;
+
+  const soldOutMessage = (r: SizeRow) => `Size M ${r.size_us_men} is sold out.`;
 
   function pick(r: SizeRow) {
     if (r.stock_status === "sold_out") {
@@ -23,14 +27,23 @@ export default function SizePicker({ rows, error }: Props) {
       return;
     }
     setSelected(r.sku);
+    setAdded(false);
     setMessage(
       `${r.size_label} · EU ${r.size_eu}` +
         (r.stock_status === "low_stock" ? ` · Only ${r.stock_quantity} left` : "")
     );
   }
 
+  // There is no cart yet: this only confirms the pick. Hook a real add-to-bag call in here.
+  function addToBag() {
+    if (!selectedRow) return;
+    setAdded(true);
+    setMessage(`Added to bag: ${selectedRow.size_label} · EU ${selectedRow.size_eu}`);
+  }
+
   function ariaLabel(r: SizeRow) {
-    if (r.stock_status === "sold_out") return `Size M ${r.size_us_men}, out of stock`;
+    // Same words as the visible key ("sold out"), so screen readers say what sighted users see
+    if (r.stock_status === "sold_out") return `Size M ${r.size_us_men}, sold out`;
     if (r.stock_status === "low_stock") return `Size M ${r.size_us_men}, only ${r.stock_quantity} left`;
     return `Size M ${r.size_us_men}`;
   }
@@ -58,9 +71,29 @@ export default function SizePicker({ rows, error }: Props) {
           </button>
         ))}
       </div>
+      {/* One-line key: explains the strike without relying on the picture alone */}
+      <p className="sizes__key">
+        <span className="sizes__key-swatch" aria-hidden="true" />
+        Crossed out = sold out
+      </p>
       <p className="sizes__status" role="status" aria-live="polite">
         {message}
       </p>
+      {/* Server-rendered (disabled) so it takes its space from first paint: no layout shift.
+          Real `disabled`: it only turns on once an in-stock size is picked. */}
+      <button
+        type="button"
+        className="add"
+        data-testid="add-to-bag"
+        disabled={!selectedRow}
+        onClick={addToBag}
+      >
+        {!selectedRow
+          ? "Select a size"
+          : added
+            ? "Added to bag ✓"
+            : `Add M ${selectedRow.size_us_men} to bag`}
+      </button>
     </>
   );
 }
